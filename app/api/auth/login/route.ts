@@ -1,7 +1,14 @@
 import { NextResponse } from "next/server";
 
+console.log("ENV DEBUG", {
+  id: process.env.SPOTIFY_CLIENT_ID,
+  secret: process.env.SPOTIFY_CLIENT_SECRET,
+  base: process.env.BASE_URL
+});
+
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID!;
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!;
+const BASE_URL = process.env.BASE_URL!;
+
 const REDIRECT_URI = `${BASE_URL}/api/auth/callback`;
 
 const SCOPES = [
@@ -9,7 +16,7 @@ const SCOPES = [
   "playlist-modify-public",
   "user-read-email",
   "user-read-private",
-  "user-library-read"
+  "user-library-read",
 ];
 
 export function GET() {
@@ -20,7 +27,11 @@ export function GET() {
     scope: SCOPES.join(" "),
   });
 
-  return NextResponse.redirect(
-    "https://accounts.spotify.com/authorize?" + params.toString()
-  );
+  const authorizeUrl =
+    "https://accounts.spotify.com/authorize?" + params.toString();
+
+  console.log("🚨 DEBUG LOGIN REDIRECT URI:", REDIRECT_URI);
+  console.log("🚨 FULL AUTH URL:", authorizeUrl);
+
+  return NextResponse.redirect(authorizeUrl);
 }
