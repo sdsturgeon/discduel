@@ -1,0 +1,15 @@
+@import "tailwindcss";
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --spotify-green: #1DB954;
+}
+
+.text-spotify-green {
+  color: var(--spotify-green);
+}
+
+.bg-spotify-green {
+  background-color: var(--spotify-green);
+}
