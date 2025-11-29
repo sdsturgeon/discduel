@@ -13,7 +13,8 @@ export async function GET(request: Request) {
 
   const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID!;
   const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET!;
-  const REDIRECT_URI = "http://127.0.0.1:3000/api/auth/callback";
+  const BASE_URL = process.env.BASE_URL!;
+  const REDIRECT_URI = `${BASE_URL}/api/auth/callback`;
 
   const tokenEndpoint = "https://accounts.spotify.com/api/token";
 
@@ -41,20 +42,17 @@ export async function GET(request: Request) {
       return NextResponse.json(data, { status: 500 });
     }
 
-    // -------------------------------------
-    // Save tokens into cookies (temporary)
-    // -------------------------------------
-    const response = NextResponse.redirect("http://127.0.0.1:3000/select-artist");
+    const response = NextResponse.redirect(`${BASE_URL}/select-artist`);
 
     response.cookies.set("spotify_access_token", data.access_token, {
       httpOnly: true,
-      secure: false,
+      secure: BASE_URL.startsWith("https://"),
       path: "/",
     });
 
     response.cookies.set("spotify_refresh_token", data.refresh_token, {
       httpOnly: true,
-      secure: false,
+      secure: BASE_URL.startsWith("https://"),
       path: "/",
     });
 

@@ -1,11 +1,5 @@
 import { NextResponse } from "next/server";
 
-console.log("ENV DEBUG", {
-  id: process.env.SPOTIFY_CLIENT_ID,
-  secret: process.env.SPOTIFY_CLIENT_SECRET,
-  base: process.env.BASE_URL
-});
-
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID!;
 const BASE_URL = process.env.BASE_URL!;
 
@@ -29,9 +23,6 @@ export function GET() {
 
   const authorizeUrl =
     "https://accounts.spotify.com/authorize?" + params.toString();
-
-  console.log("🚨 DEBUG LOGIN REDIRECT URI:", REDIRECT_URI);
-  console.log("🚨 FULL AUTH URL:", authorizeUrl);
 
   return NextResponse.redirect(authorizeUrl);
 }
